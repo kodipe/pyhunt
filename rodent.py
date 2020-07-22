@@ -19,19 +19,32 @@ class Indexer:
   """
     Class used for indexing files
     TODO:
-      - save index to file
+      - index single file and add results 
+        to index (e.g. if new file is created)
   """
   def __init__(self):
     self.index = {}
     pass
 
-  def index_files(self, files_map):
+  def create_index(self, files_map):
     for file, tokens in files_map.items():
       for token in tokens:
         if token in self.index:
-          self.index[token].append(file)
+          if file not in self.index[token]:
+            self.index[token].append(file)
         else:
           self.index[token] = [file]
+
+  def save_index(self, file_name):
+    index_file = open(file_name, 'w+')
+    index_file.write(json.dumps(self.index))
+    index_file.close()
+
+  def load_index(self, file_name):
+    index_file = open(file_name, 'r')
+    self.index = json.loads(index_file.read())
+    index_file.close()
+
 
 
 class Rodent:
@@ -47,7 +60,7 @@ class Rodent:
 
   def create_index(self):
     self.load_files()
-    self.indexer.index_files(self.files_map)
+    self.indexer.create_index(self.files_map)
 
   def load_files(self):
     """
@@ -72,14 +85,14 @@ class Rodent:
       Search words in indexer index
       TODO:
         - try to find better performance
-        - ordering files based on word occurence
+        - ordering files based on how many files contains specific word 
+          and how many times word occur in specific file
     """
     query_words = query.split()
 
     results = {}
 
     for word in query_words:
-      
       if word in self.indexer.index:
         for file_path in self.indexer.index[word]:
           if file_path in results:
@@ -92,24 +105,23 @@ class Rodent:
     return list(results.keys())
 
   def save_index(self, file_name):
-    index_file = open(file_name, 'w+')
-    index_file.write(json.dumps(self.indexer.index))
+    self.indexer.save_index(file_name)
 
   def load_index(self, file_name):
-    index_content = open(file_name, 'r')
-    self.indexer.index = json.loads(index_content.read())
+    self.indexer.load_index(file_name)
     
 # Usage    
 
-engine = Rodent('test_files')
-# engine.create_index()
+if __name__ == "__main__":
+  engine = Rodent('test_files')
+  engine.create_index()
 
-engine.load_index('index.json')
-# engine.save_index('index.json')
+  # engine.load_index('index.json')
+  # engine.save_index('index.json')
 
-query = 'with nulla'
+  query = 'with nulla'
 
-results = engine.search(query)
+  results = engine.search(query)
 
-print(f'Results for: "{query}"')
-print(results)
+  print(f'Results for: "{query}"')
+  print(results)
