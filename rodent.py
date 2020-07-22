@@ -1,4 +1,5 @@
 import glob
+import json
 
 class Tokenizer:
   """
@@ -21,11 +22,10 @@ class Indexer:
       - save index to file
   """
   def __init__(self):
+    self.index = {}
     pass
 
   def index_files(self, files_map):
-    self.index = {}
-
     for file, tokens in files_map.items():
       for token in tokens:
         if token in self.index:
@@ -45,8 +45,8 @@ class Rodent:
     self.dir = dir
     self.files_map = {}
 
+  def create_index(self):
     self.load_files()
-
     self.indexer.index_files(self.files_map)
 
   def load_files(self):
@@ -90,12 +90,24 @@ class Rodent:
         print([])
 
     return list(results.keys())
+
+  def save_index(self, file_name):
+    index_file = open(file_name, 'w+')
+    index_file.write(json.dumps(self.indexer.index))
+
+  def load_index(self, file_name):
+    index_content = open(file_name, 'r')
+    self.indexer.index = json.loads(index_content.read())
     
 # Usage    
 
 engine = Rodent('test_files')
+# engine.create_index()
 
-query = 'with'
+engine.load_index('index.json')
+# engine.save_index('index.json')
+
+query = 'with nulla'
 
 results = engine.search(query)
 
