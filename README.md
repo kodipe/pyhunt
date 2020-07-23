@@ -18,8 +18,8 @@ Some results on the dataset:
   - with file index containing files id (\~100KB): \~4.6MB
 - Searching word 'exotic' through already generated index:
   - only general index: \~0.5s
-  - with separated files index: \~0.3s
-- grep on the same machine and the same word: \~0.25s
+  - with separated files index: \~0.3s (±0.03s)
+- grep on the same machine and the same word: \~0.25s (±0.03s)
 
 ### Todos
 
