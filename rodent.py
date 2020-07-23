@@ -53,6 +53,7 @@ class Indexer:
   """
   def __init__(self):
     self.index = {}
+    self.files_index = {}
     pass
 
   def create_index(self, files_map, minimal_word_length=1):
@@ -65,18 +66,33 @@ class Indexer:
           #   tokens.count(token) # O = n^2 -> it has to be improved
           # )
 
-          if token in self.index:
-            if file not in self.index[token]:
-              self.index[token].append(file)
-          else:
-            self.index[token] = [file]
+          for file_id, file_name in self.files_index.items():
+            if file_name == file:
+              if token in self.index:
+                if file not in self.index[token]:
+                  self.index[token].append(file_id)
+              else:
+                self.index[token] = [file_id]
+              break
+
+  def create_files_index(self, files):
+    for file in files:
+      self.files_index[len(self.files_index.keys()) + 1] = file
 
   def save_index(self, file_name):
+    files_index_file = io.open('files_index.json', 'w+', encoding='utf8')
+    files_index_file.write(json.dumps(self.files_index))
+    files_index_file.close()
+
     index_file = io.open(file_name, 'w+', encoding='utf8')
     index_file.write(json.dumps(self.index))
     index_file.close()
 
   def load_index(self, file_name):
+    files_index_file = io.open('files_index.json', 'r', encoding='utf8')
+    self.files_index = json.loads(files_index_file.read())
+    files_index_file.close()
+    
     index_file = io.open(file_name, 'r', encoding='utf8')
     self.index = json.loads(index_file.read())
     index_file.close()
@@ -90,6 +106,7 @@ class Rodent:
   Main class of search engine
   """
   def __init__(self, dir):
+    self.files = []
     self.tokenizer = Tokenizer()
     self.indexer = Indexer()
 
@@ -98,6 +115,7 @@ class Rodent:
 
   def create_index(self, minimal_word_length=1):
     self.load_files()
+    self.indexer.create_files_index(self.files)
     self.indexer.create_index(self.files_map, minimal_word_length)
 
   def load_files(self):
@@ -157,13 +175,13 @@ class Rodent:
 # Usage    
 
 if __name__ == "__main__":
-  engine = Rodent('test_files')
+  engine = Rodent('test_dataset')
   # engine.create_index()
 
   engine.load_index('index.json')
   # engine.save_index('index.json')
 
-  query = u"exotic spread operator which is great"
+  query = u"exotic"
 
   results = engine.search(query, output='wages')
 

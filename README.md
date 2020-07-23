@@ -12,9 +12,14 @@ Test dataset contains 2225 articles (4.8MB) from BBC (http://mlg.ucd.ie/datasets
 
 Some results on the dataset:
 
-- Indexing time: ~4.5s
-- Index size: ~17.8MB
-- Searching through index: ~0.5s
+- Indexing time: \~4.5s
+- Index size:
+  - without file index: \~18.5MB
+  - with file index containing files id (\~100KB): \~4.6MB
+- Searching word 'exotic' through already generated index:
+  - only general index: \~0.5s
+  - with separated files index: \~0.3s
+- grep on the same machine and the same word: \~0.25s
 
 ### Todos
 
@@ -29,9 +34,13 @@ Some results on the dataset:
 - [x] ordering based on best match
 - [x] config (e.g. minimal word length)
 - [ ] check graph structure to consider connections between words
-- [ ] split index to separated files (by first letter of word?)
+- split index to separated files
+  - [ ] by first letter of word
+  - [x] separated index for filenames
+- [ ] binary index
 - [ ] try to use threads
 - [x] saving index to file
+- [ ] performance tests in more representative environment and standard deviation
 
 ### Unit tests
 
