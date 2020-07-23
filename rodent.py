@@ -1,5 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import io
 import glob
 import json
+import sys
 
 class Tokenizer:
   """
@@ -13,7 +18,30 @@ class Tokenizer:
     pass
 
   def tokenize(self, content):
-    return content.lower().split()
+    return self.remove_stop_words(content.lower().split(), [
+      'are',
+      'is',
+      'i',
+      'am',
+      'he',
+      'she',
+      'it',
+      'of',
+      'at',
+      'the',
+      'and',
+      'want',
+      'this',
+      'have',
+      'self',
+      'then',
+      'what',
+      'much',
+      'down'
+    ])
+
+  def remove_stop_words(self, tokens, stop_words):
+    return list(filter(lambda token: token not in stop_words, tokens))
 
 class Indexer:
   """
@@ -21,31 +49,41 @@ class Indexer:
     TODO:
       - index single file and add results 
         to index (e.g. if new file is created)
+      - Improve performance for large files
   """
   def __init__(self):
     self.index = {}
     pass
 
-  def create_index(self, files_map):
+  def create_index(self, files_map, minimal_word_length=1):
     for file, tokens in files_map.items():
       for token in tokens:
-        if token in self.index:
-          if file not in self.index[token]:
-            self.index[token].append(file)
-        else:
-          self.index[token] = [file]
+        if len(token) > minimal_word_length:
+          
+          # print(
+          #   token, 
+          #   tokens.count(token) # O = n^2 -> it has to be improved
+          # )
+
+          if token in self.index:
+            if file not in self.index[token]:
+              self.index[token].append(file)
+          else:
+            self.index[token] = [file]
 
   def save_index(self, file_name):
-    index_file = open(file_name, 'w+')
+    index_file = io.open(file_name, 'w+', encoding='utf8')
     index_file.write(json.dumps(self.index))
     index_file.close()
 
   def load_index(self, file_name):
-    index_file = open(file_name, 'r')
+    index_file = io.open(file_name, 'r', encoding='utf8')
     self.index = json.loads(index_file.read())
     index_file.close()
 
-
+  def add_file_to_index(self):
+    # To be implemented
+    pass
 
 class Rodent:
   """
@@ -58,15 +96,15 @@ class Rodent:
     self.dir = dir
     self.files_map = {}
 
-  def create_index(self):
+  def create_index(self, minimal_word_length=1):
     self.load_files()
-    self.indexer.create_index(self.files_map)
+    self.indexer.create_index(self.files_map, minimal_word_length)
 
   def load_files(self):
     """
       Load files list and its content
     """
-    self.files = glob.glob('test_files/*')
+    self.files = glob.glob(f'{self.dir}/**/*.txt', recursive=True)
 
     for file_path in self.files:
       self.read_file(file_path)
@@ -75,12 +113,15 @@ class Rodent:
     """
       Open file and map content to given file
     """
-    file = open(file_path, 'r')
-    file_content = file.read()
+    try:
+      file = io.open(file_path, 'r', encoding='utf8', errors='ignore')
+      file_content = file.read()
 
-    self.files_map[file_path] = self.tokenizer.tokenize(file_content)
+      self.files_map[file_path] = self.tokenizer.tokenize(file_content)
+    except:
+      print("File reading error")
 
-  def search(self, query):
+  def search(self, query, output='files'):
     """
       Search words in indexer index
       TODO:
@@ -88,7 +129,7 @@ class Rodent:
         - ordering files based on how many files contains specific word 
           and how many times word occur in specific file
     """
-    query_words = query.split()
+    query_words = query.lower().split()
 
     results = {}
 
@@ -99,10 +140,13 @@ class Rodent:
             results[file_path] = results[file_path] + 1
           else:
             results[file_path] = 1
-      else:
-        print([])
 
-    return list(results.keys())
+    if output == 'wages':
+      return list(sorted(results.items(), key=lambda x: x[1], reverse=True))
+    else:
+      return list(results.keys())
+
+    
 
   def save_index(self, file_name):
     self.indexer.save_index(file_name)
@@ -114,14 +158,14 @@ class Rodent:
 
 if __name__ == "__main__":
   engine = Rodent('test_files')
-  engine.create_index()
+  # engine.create_index()
 
-  # engine.load_index('index.json')
+  engine.load_index('index.json')
   # engine.save_index('index.json')
 
-  query = 'with nulla'
+  query = u"exotic spread operator which is great"
 
-  results = engine.search(query)
+  results = engine.search(query, output='wages')
 
-  print(f'Results for: "{query}"')
+  sys.stdout.buffer.write(f'Results for: "{query}"\n'.encode())
   print(results)
