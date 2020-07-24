@@ -6,13 +6,26 @@ Flat files search engine
 
 **Works only with UTF-8 files**
 
+### Requirements
+
+- Python 3.8.x
+- No need database!
+
+### Features
+
+- Files content indexing
+- Persist indexes
+- Adding single file to index
+- stop words
+
 ### Test dataset
 
 Test dataset contains 2225 articles (4.8MB) from BBC (http://mlg.ucd.ie/datasets/bbc.html)
 
 Some results on the dataset:
 
-- Indexing time: \~4.5s
+- Single file indexing: \~0.8s
+- Indexing time for whole test dataset: \~50s
 - Index size:
   - without file index: \~18.5MB
   - with file index containing files id (\~100KB): \~4.6MB
