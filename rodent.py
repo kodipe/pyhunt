@@ -5,6 +5,7 @@ import io
 import glob
 import json
 import sys
+import re
 
 RODENT_OUTPUT_WAGES = 'wages'
 RODENT_OUTPUT_FILES = 'files'
@@ -21,7 +22,7 @@ class Tokenizer:
     pass
 
   def tokenize(self, content):
-    return self.remove_stop_words(content.lower().split(), [
+    return self.remove_stop_words(re.sub(r'[^A-Za-z0-9 \-]+', '', content.lower()).split(), [
       'are',
       'is',
       'i',
@@ -151,7 +152,7 @@ class Rodent:
         - ordering files based on how many files contains specific word 
           and how many times word occur in specific file
     """
-    query_words = query.lower().split()
+    query_words = re.sub(r'[^A-Za-z0-9 ]+', '', query.lower()).split()
 
     results = {}
 
@@ -189,12 +190,12 @@ class Rodent:
 if __name__ == "__main__":
   engine = Rodent('test_dataset')
   # engine.add_file_to_index('index.json', 'konrad.txt')
-  engine.create_index(persist=True)
+  # engine.create_index(persist=True)
 
-  # engine.load_index('index.json')
+  engine.load_index('index.json')
   # engine.save_index('index.json')
 
-  query = u"konrad"
+  query = u"criss-crossing"
 
   results = engine.search(query, output='wages')
 

@@ -4,8 +4,13 @@ from rodent import Tokenizer, Rodent, Indexer
 class TestTokenizer(unittest.TestCase):
   def test_tokenize(self):
     tokenizer = Tokenizer()
+    result = tokenizer.tokenize("Collaborative online platform")
+    self.assertListEqual(result, ["collaborative", "online", "platform"])
+
+  def test_tokenize_with_stop_words(self):
+    tokenizer = Tokenizer()
     result = tokenizer.tokenize("This is Foo bar")
-    self.assertListEqual(result, ["this", "is", "foo", "bar"])
+    self.assertListEqual(result, ["foo", "bar"])
 
 class TestRodent(unittest.TestCase):
   def test_tokenize(self):

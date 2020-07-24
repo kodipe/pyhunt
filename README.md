@@ -36,24 +36,22 @@ Some results on the dataset:
 
 ### Todos
 
-- [ ] omit commas, dots, semicolons etc.
+
 - [ ] Remove white characters from index (like \ufeff)
 - [ ] Better UTF-8 support
-- [x] remove stop words from index (English)
 - [ ] stemming (English)
-- [ ] special characters support
 - [ ] count word occurences in file and save it to index
 - [ ] case sensitive/insensitive search
-- [x] ordering based on best match
-- [x] config (e.g. minimal word length)
 - [ ] check graph structure to consider connections between words
-- split index to separated files
-  - [ ] by first letter of word
-  - [x] separated index for filenames
 - [ ] binary index
 - [ ] try to use threads
-- [x] saving index to file
 - [ ] performance tests in more representative environment and standard deviation
+- [x] omit commas, dots, semicolons etc.
+- [x] remove stop words from index (English)
+- [x] ordering based on best match
+- [x] config (e.g. minimal word length)
+- [x] saving index to file
+- [x] separated index for filenames
 
 ### Unit tests
 
