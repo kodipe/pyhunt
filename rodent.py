@@ -68,7 +68,7 @@ class Indexer:
       self.files_index[len(self.files_index.keys()) + 1] = file
 
   def save_index(self, file_name):
-    files_index_file = io.open(file_name, 'w+', encoding='utf8')
+    files_index_file = io.open('files_index.json', 'w+', encoding='utf8')
     files_index_file.write(json.dumps(self.files_index))
     files_index_file.close()
 
