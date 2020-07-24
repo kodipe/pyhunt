@@ -42,6 +42,9 @@ Some results on the dataset:
 - [ ] stemming (English)
 - [ ] count word occurences in file and save it to index
 - [ ] case sensitive/insensitive search
+- [ ] extended config
+- [ ] purge index
+- [ ] index auto detection
 - [ ] check graph structure to consider connections between words
 - [ ] binary index
 - [ ] try to use threads

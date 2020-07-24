@@ -14,7 +14,6 @@ class Tokenizer:
   """
   Class used for tokenizing purpose
   TODO:
-    - special characters support
     - case sensitive or not support
   """
 
@@ -51,8 +50,6 @@ class Indexer:
   """
     Class used for indexing files
     TODO:
-      - index single file and add results 
-        to index (e.g. if new file is created)
       - Improve performance for large files
   """
   def __init__(self):
