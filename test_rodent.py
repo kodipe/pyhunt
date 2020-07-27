@@ -1,5 +1,6 @@
 import unittest
 from rodent import Tokenizer, Rodent, Indexer
+from languages import English
 
 class TestTokenizer(unittest.TestCase):
   def test_tokenize(self):
@@ -11,6 +12,11 @@ class TestTokenizer(unittest.TestCase):
     tokenizer = Tokenizer()
     result = tokenizer.tokenize("This is Foo bar")
     self.assertListEqual(result, ["foo", "bar"])
+
+  def test_remove_stop_words(self):
+    tokenizer = Tokenizer()
+    result = tokenizer.remove_stop_words(["test", "in", "the", "file"], English.STOP_WORDS)
+    self.assertListEqual(result, ["test", "file"])
 
 class TestRodent(unittest.TestCase):
   def test_tokenize(self):

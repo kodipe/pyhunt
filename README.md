@@ -36,6 +36,7 @@ Some results on the dataset:
 - [ ] Remove white characters from index (like \ufeff)
 - [ ] Better UTF-8 support
 - [ ] count word occurences in file and save it to index
+- [ ] Improve stemming
 - [ ] case sensitive/insensitive search
 - [ ] extended config
 - [ ] purge index

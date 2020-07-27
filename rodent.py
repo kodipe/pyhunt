@@ -142,6 +142,7 @@ class Rodent:
 
     for word in query_words:
       if self.lang.create_stem(word) in self.indexer.index:
+        print(word)
         for file_path in self.indexer.index[self.lang.create_stem(word)]:
           if file_path in results:
             results[file_path] = results[file_path] + 1
@@ -164,22 +165,22 @@ class Rodent:
     self.read_file(file_path)
     self.indexer.create_files_index([
       file_path
-    ]) # should be add_to_files_index()
+    ])
     self.indexer.add_file_to_index(file_path, self.files_map[file_path])
     self.indexer.save_index('index.json')
 
     
-# Usage    
+# Usage
 
 if __name__ == "__main__":
   engine = Rodent('test_dataset')
   # engine.add_file_to_index('index.json', 'konrad.txt')
-  # engine.create_index(persist=True)
+  engine.create_index(persist=True)
 
-  engine.load_index('index.json')
-  # engine.save_index('index.json')
+  # engine.load_index('index.json')
+  engine.save_index('index.json')
 
-  query = u"exotic"
+  query = u"The monkey is jumping in the trees"
 
   results = engine.search(query, output='wages')
 
