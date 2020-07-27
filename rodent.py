@@ -6,11 +6,19 @@ import glob
 import json
 import sys
 import re
+import os
+
+from languages import English
 
 RODENT_OUTPUT_WAGES = 'wages'
 RODENT_OUTPUT_FILES = 'files'
+RODENT_NORMALIZE_REGEX = r'[^A-Za-z0-9 \-]+'
 
-class Tokenizer:
+class TokenizerInterface:
+  def tokenize():
+    pass
+
+class Tokenizer(TokenizerInterface):
   """
   Class used for tokenizing purpose
   TODO:
@@ -21,27 +29,7 @@ class Tokenizer:
     pass
 
   def tokenize(self, content):
-    return self.remove_stop_words(re.sub(r'[^A-Za-z0-9 \-]+', '', content.lower()).split(), [
-      'are',
-      'is',
-      'i',
-      'am',
-      'he',
-      'she',
-      'it',
-      'of',
-      'at',
-      'the',
-      'and',
-      'want',
-      'this',
-      'have',
-      'self',
-      'then',
-      'what',
-      'much',
-      'down'
-    ])
+    return self.remove_stop_words(re.sub(RODENT_NORMALIZE_REGEX, '', content.lower()).split(), English.STOP_WORDS)
 
   def remove_stop_words(self, tokens, stop_words):
     return list(filter(lambda token: token not in stop_words, tokens))
@@ -55,6 +43,7 @@ class Indexer:
   def __init__(self):
     self.index = {}
     self.files_index = {}
+    self.lang = English()
     pass
 
   def create_index(self, files_map, minimal_word_length=1):
@@ -88,11 +77,11 @@ class Indexer:
       if len(token) > minimal_word_length:
         for file_id, file_name in self.files_index.items():
           if file_name == file:
-            if token in self.index:
-              if file not in self.index[token]:
-                self.index[token].append(file_id)
+            if self.lang.create_stem(token) in self.index:
+              if file_id not in self.index[self.lang.create_stem(token)]:
+                self.index[self.lang.create_stem(token)].append(file_id)
             else:
-              self.index[token] = [file_id]
+              self.index[self.lang.create_stem(token)] = [file_id]
             break
     pass
 
@@ -101,13 +90,11 @@ class Rodent:
   Main class of search engine
   """
 
-  OUTPUT_WAGES = 'wages'
-  OUTPUT_FILES = 'files'
-
   def __init__(self, dir):
     self.files = []
     self.tokenizer = Tokenizer()
     self.indexer = Indexer()
+    self.lang = English()
 
     self.dir = dir
     self.files_map = {}
@@ -149,13 +136,13 @@ class Rodent:
         - ordering files based on how many files contains specific word 
           and how many times word occur in specific file
     """
-    query_words = re.sub(r'[^A-Za-z0-9 ]+', '', query.lower()).split()
+    query_words = re.sub(RODENT_NORMALIZE_REGEX, '', query.lower()).split()
 
     results = {}
 
     for word in query_words:
-      if word in self.indexer.index:
-        for file_path in self.indexer.index[word]:
+      if self.lang.create_stem(word) in self.indexer.index:
+        for file_path in self.indexer.index[self.lang.create_stem(word)]:
           if file_path in results:
             results[file_path] = results[file_path] + 1
           else:
@@ -192,7 +179,7 @@ if __name__ == "__main__":
   engine.load_index('index.json')
   # engine.save_index('index.json')
 
-  query = u"criss-crossing"
+  query = u"exotic"
 
   results = engine.search(query, output='wages')
 

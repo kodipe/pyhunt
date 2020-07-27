@@ -25,13 +25,9 @@ Test dataset contains 2225 articles (4.8MB) from BBC (http://mlg.ucd.ie/datasets
 Some results on the dataset:
 
 - Single file indexing: \~0.8s
-- Indexing time for whole test dataset: \~50s
-- Index size:
-  - without file index: \~18.5MB
-  - with file index containing files id (\~100KB): \~4.6MB
-- Searching word 'exotic' through already generated index:
-  - only general index: \~0.5s
-  - with separated files index: \~0.3s (±0.03s)
+- Indexing time for whole test dataset: \~41s (±2s)
+- Index size: \~2.6MB + \~100KB (files index)
+- Searching word 'exotic' through already generated index: \~0.21s (±0.01s)
 - grep on the same machine and the same word: \~0.25s (±0.03s)
 
 ### Todos
@@ -39,7 +35,6 @@ Some results on the dataset:
 
 - [ ] Remove white characters from index (like \ufeff)
 - [ ] Better UTF-8 support
-- [ ] stemming (English)
 - [ ] count word occurences in file and save it to index
 - [ ] case sensitive/insensitive search
 - [ ] extended config
@@ -49,6 +44,7 @@ Some results on the dataset:
 - [ ] binary index
 - [ ] try to use threads
 - [ ] performance tests in more representative environment and standard deviation
+- [x] stemming (English)
 - [x] omit commas, dots, semicolons etc.
 - [x] remove stop words from index (English)
 - [x] ordering based on best match
