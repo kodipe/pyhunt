@@ -5,7 +5,7 @@ class Language:
     return token
 
 class English(Language):
-  STEMMING_REGEX = r'ed|ion|ing|s|or|ies|ly|\'s$'
+  STEMMING_REGEX = r'(ed|ion|ing|s|or|ies|ly|\'s)$'
   STOP_WORDS = [
     'are',
     'is',

@@ -1,3 +1,5 @@
 *.json
-test_dataset
+test/performance/__dataset__
 __pycache__
+*/__pycache__
+*.zip

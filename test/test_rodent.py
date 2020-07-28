@@ -1,6 +1,6 @@
 import unittest
-from rodent import Tokenizer, Rodent, Indexer
-from languages import English
+from rodent.rodent import Tokenizer, Rodent, Indexer
+from rodent.languages import English
 
 class TestTokenizer(unittest.TestCase):
   def test_tokenize(self):

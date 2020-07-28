@@ -16,9 +16,10 @@ Flat files search engine
 - Files content indexing
 - Persist indexes
 - Adding single file to index
-- stop words
+- Stop words
+- Stemming
 
-### Test dataset
+### Performance test
 
 Test dataset contains 2225 articles (4.8MB) from BBC (http://mlg.ucd.ie/datasets/bbc.html)
 
@@ -44,7 +45,8 @@ Some results on the dataset:
 - [ ] check graph structure to consider connections between words
 - [ ] binary index
 - [ ] try to use threads
-- [ ] performance tests in more representative environment and standard deviation
+- [ ] performance tests in more representative environment and standard deviation (Travis CI?)
+- [ ] Publishing of performance results
 - [x] stemming (English)
 - [x] omit commas, dots, semicolons etc.
 - [x] remove stop words from index (English)
@@ -56,11 +58,11 @@ Some results on the dataset:
 ### Unit tests
 
 ```
-python -m unittest
+./scripts/run-tests.py
 ```
 
-### Time execution test
+### Performance test
 
 ```
-time python rodent.py
+./scripts/run-performance-test.py
 ```
