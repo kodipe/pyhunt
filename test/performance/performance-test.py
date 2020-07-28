@@ -12,7 +12,7 @@ if __name__ == "__main__":
   # engine.load_index('index.json')
   engine.save_index('index.json')
 
-  query = u"exotic"
+  query = u"health of human body"
 
   results = engine.search(query, output='wages')
 

@@ -19,7 +19,17 @@ Flat files search engine
 - Stop words
 - Stemming
 
+### Unit tests
+
+```
+./scripts/run-tests.py
+```
+
 ### Performance test
+
+```
+./scripts/run-performance-test.py
+```
 
 Test dataset contains 2225 articles (4.8MB) from BBC (http://mlg.ucd.ie/datasets/bbc.html)
 
@@ -54,15 +64,3 @@ Some results on the dataset:
 - [x] config (e.g. minimal word length)
 - [x] saving index to file
 - [x] separated index for filenames
-
-### Unit tests
-
-```
-./scripts/run-tests.py
-```
-
-### Performance test
-
-```
-./scripts/run-performance-test.py
-```
