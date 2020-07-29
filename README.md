@@ -55,7 +55,7 @@ Some results for the dataset (on my local machine):
 - [ ] binary index
 - [ ] try to use threads
 - [ ] performance tests in more representative environment and standard deviation (Travis CI?)
-- [ ] Publishing of performance results
+- [ ] Support for other file types than .txt
 - [x] count word occurences in file and save it to index
 - [x] stemming (English)
 - [x] omit commas, dots, semicolons etc.
