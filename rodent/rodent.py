@@ -21,8 +21,6 @@ class TokenizerInterface:
 class Tokenizer(TokenizerInterface):
   """
   Class used for tokenizing purpose
-  TODO:
-    - case sensitive or not support
   """
 
   def __init__(self):

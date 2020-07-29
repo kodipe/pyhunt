@@ -3,7 +3,7 @@ import os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-from rodent import Rodent
+from rodent import Rodent, RODENT_OUTPUT_WAGES
 
 if __name__ == "__main__":
   engine = Rodent(
@@ -17,7 +17,7 @@ if __name__ == "__main__":
 
   query = u"health of human body"
 
-  results = engine.search(query, output='wages')
+  results = engine.search(query, output=RODENT_OUTPUT_WAGES)
 
   sys.stdout.buffer.write(f'Results for: "{query}"\n'.encode())
   print(results)

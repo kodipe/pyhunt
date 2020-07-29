@@ -36,7 +36,7 @@ Test dataset contains 2225 articles (4.8MB) from BBC (http://mlg.ucd.ie/datasets
 Some results on the dataset:
 
 - Single file indexing: \~0.8s
-- Indexing time for whole test dataset: \~41s (±2s)
+- Indexing time for whole test dataset: \~40s (±2s)
 - Index size: \~2.6MB + \~100KB (files index)
 - Searching word 'exotic' through already generated index: \~0.21s (±0.01s)
 - grep on the same machine and the same word: \~0.25s (±0.03s)
@@ -48,7 +48,6 @@ Some results on the dataset:
 - [ ] Better UTF-8 support
 - [ ] count word occurences in file and save it to index
 - [ ] Improve stemming
-- [ ] case sensitive/insensitive search
 - [ ] extended config
 - [ ] purge index
 - [ ] index auto detection

@@ -20,8 +20,9 @@ class TestTokenizer(unittest.TestCase):
 
 class TestRodent(unittest.TestCase):
   def test_tokenize(self):
-    rodent = Rodent('foo_bar_directory')
+    rodent = Rodent('foo_bar_directory', 'foo_index_dir')
     self.assertEqual(rodent.dir, 'foo_bar_directory')
+    self.assertEqual(rodent.index_dir, 'foo_index_dir')
     self.assertIsInstance(rodent.tokenizer, Tokenizer)
     self.assertIsInstance(rodent.indexer, Indexer)
 
