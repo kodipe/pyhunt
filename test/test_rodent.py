@@ -18,11 +18,20 @@ class TestTokenizer(unittest.TestCase):
     result = tokenizer.remove_stop_words(["test", "in", "the", "file"], English.STOP_WORDS)
     self.assertListEqual(result, ["test", "file"])
 
+  def test_tokenize_with_lines_break(self):
+    tokenizer = Tokenizer()
+    result = tokenizer.tokenize(
+      """Solutions to net security fears
+
+Fake"""
+    )
+    self.assertListEqual(result, ["solutions", "net", "security", "fears", "fake"])
+
 class TestRodent(unittest.TestCase):
   def test_tokenize(self):
-    rodent = Rodent('foo_bar_directory', 'foo_index_dir')
-    self.assertEqual(rodent.dir, 'foo_bar_directory')
-    self.assertEqual(rodent.index_dir, 'foo_index_dir')
+    rodent = Rodent("foo_bar_directory", "foo_index_dir")
+    self.assertEqual(rodent.dir, "foo_bar_directory")
+    self.assertEqual(rodent.index_dir, "foo_index_dir")
     self.assertIsInstance(rodent.tokenizer, Tokenizer)
     self.assertIsInstance(rodent.indexer, Indexer)
 

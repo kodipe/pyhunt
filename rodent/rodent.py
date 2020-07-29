@@ -12,7 +12,7 @@ from rodent.languages import English
 
 RODENT_OUTPUT_WAGES = 'wages'
 RODENT_OUTPUT_FILES = 'files'
-RODENT_NORMALIZE_REGEX = r'[^A-Za-z0-9 \-]+'
+RODENT_NORMALIZE_REGEX = r'[^A-Za-z0-9 \-\n\r]+'
 
 class TokenizerInterface:
   def tokenize():
@@ -78,9 +78,12 @@ class Indexer:
           if file_name == file:
             if self.lang.create_stem(token) in self.index:
               if file_id not in self.index[self.lang.create_stem(token)]:
-                self.index[self.lang.create_stem(token)].append(file_id)
+                self.index[self.lang.create_stem(token)][file_id] = 1
+              else:
+                self.index[self.lang.create_stem(token)][file_id] = self.index[self.lang.create_stem(token)][file_id] + 1
             else:
-              self.index[self.lang.create_stem(token)] = [file_id]
+              self.index[self.lang.create_stem(token)] = {}
+              self.index[self.lang.create_stem(token)][file_id] = 1
             break
     pass
 
@@ -144,9 +147,9 @@ class Rodent:
       if self.lang.create_stem(word) in self.indexer.index:
         for file_path in self.indexer.index[self.lang.create_stem(word)]:
           if file_path in results:
-            results[file_path] = results[file_path] + 1
+            results[file_path] = results[file_path] + self.indexer.index[self.lang.create_stem(word)][file_path]
           else:
-            results[file_path] = 1
+            results[file_path] = self.indexer.index[self.lang.create_stem(word)][file_path]
 
     if output == RODENT_OUTPUT_WAGES:
       return list(sorted(results.items(), key=lambda x: x[1], reverse=True))

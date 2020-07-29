@@ -12,10 +12,10 @@ if __name__ == "__main__":
   )
   engine.create_index(persist=True)
 
-  # engine.load_index('index.json')
+  # engine.load_index(os.path.join(os.path.dirname(__file__), "index.json"))
   engine.save_index(os.path.join(os.path.dirname(__file__), "index.json"))
 
-  query = u"health of human body"
+  query = u"security document"
 
   results = engine.search(query, output=RODENT_OUTPUT_WAGES)
 
