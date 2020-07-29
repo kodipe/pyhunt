@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DATASET_DIRECTORY="test/performance/__dataset__"
+DATASET_URL="http://mlg.ucd.ie/files/datasets/bbc-fulltext.zip"
 
 if [ ! -d "$DATASET_DIRECTORY" ];
 then
@@ -11,8 +12,8 @@ DATASET_SIZE=$(du -s "$DATASET_DIRECTORY" | cut -f1)
 
 if [ $(($DATASET_SIZE + 0)) -eq 0 ];
 then
-  printf "Dataset is empty - downloading http://mlg.ucd.ie/files/datasets/bbc-fulltext.zip\n\n"
-  curl -X GET http://mlg.ucd.ie/files/datasets/bbc-fulltext.zip --output bbc.zip
+  printf "Dataset is empty - downloading $DATASET_URL\n\n"
+  curl -X GET "$DATASET_URL" --output bbc.zip
   printf "\nUnzipping dataset..."
   unzip -q -o bbc.zip -d "$DATASET_DIRECTORY"
   rm -rf bbc.zip

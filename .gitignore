@@ -1,4 +1,4 @@
-*.json
+test/performance/*.json
 test/performance/__dataset__
 __pycache__
 */__pycache__

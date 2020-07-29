@@ -40,9 +40,10 @@ class Indexer:
     TODO:
       - Improve performance for large files
   """
-  def __init__(self):
+  def __init__(self, index_dir):
     self.index = {}
     self.files_index = {}
+    self.index_dir = index_dir
     self.lang = English()
     pass
 
@@ -55,7 +56,7 @@ class Indexer:
       self.files_index[len(self.files_index.keys()) + 1] = file
 
   def save_index(self, file_name):
-    files_index_file = io.open('files_index.json', 'w+', encoding='utf8')
+    files_index_file = io.open(os.path.join(self.index_dir, 'files_index.json'), 'w+', encoding='utf8')
     files_index_file.write(json.dumps(self.files_index))
     files_index_file.close()
 
@@ -64,7 +65,7 @@ class Indexer:
     index_file.close()
 
   def load_index(self, file_name):
-    files_index_file = io.open('files_index.json', 'r', encoding='utf8')
+    files_index_file = io.open(os.path.join(self.index_dir, 'files_index.json'), 'r', encoding='utf8')
     self.files_index = json.loads(files_index_file.read())
     files_index_file.close()
 
@@ -90,14 +91,15 @@ class Rodent:
   Main class of search engine
   """
 
-  def __init__(self, content_dir):
+  def __init__(self, content_dir, index_dir):
     self.files = []
-    self.tokenizer = Tokenizer()
-    self.indexer = Indexer()
-    self.lang = English()
-
     self.dir = content_dir
+    self.index_dir = index_dir
     self.files_map = {}
+    
+    self.tokenizer = Tokenizer()
+    self.indexer = Indexer(index_dir=self.index_dir)
+    self.lang = English()
 
   def create_index(self, persist=False, minimal_word_length=1):
     self.load_files()
@@ -105,7 +107,7 @@ class Rodent:
     self.indexer.create_index(self.files_map, minimal_word_length)
 
     if persist:
-      self.indexer.save_index('index.json')
+      self.indexer.save_index(os.path.join(self.index_dir, 'index.json'))
 
   def load_files(self):
     """
@@ -166,4 +168,4 @@ class Rodent:
       file_path
     ])
     self.indexer.add_file_to_index(file_path, self.files_map[file_path])
-    self.indexer.save_index('index.json')
+    self.indexer.save_index(os.path.join(self.index_dir, 'index.json'))
