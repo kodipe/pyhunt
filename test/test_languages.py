@@ -1,6 +1,6 @@
 import unittest
 
-from rodent.languages import English
+from pyhunt.languages import English
 
 class TestEnglish(unittest.TestCase):
   def test_create_stem(self):

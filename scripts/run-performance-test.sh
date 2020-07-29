@@ -23,4 +23,4 @@ fi;
 
 printf "\nPerformance test start\n"
 
-time python ./test/performance/performance-test.py > result.txt
+time python ./test/performance/performance-test.py

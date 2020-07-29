@@ -1,8 +1,8 @@
-# rodent
+# PyHunt
 
 Flat files search engine
 
-**It's PoC - needs huge amount of improvements e.g. in performane field before production usage**
+**It's PoC - needs huge amount of improvements before production usage**
 
 **Works only with UTF-8 files**
 
@@ -33,7 +33,7 @@ Flat files search engine
 
 Test dataset contains 2225 articles (4.8MB) from BBC (http://mlg.ucd.ie/datasets/bbc.html)
 
-Some results on the dataset:
+Some results for the dataset (on my local machine):
 
 - Single file indexing: \~0.8s
 - Indexing time for whole test dataset: \~36s (±2s)
@@ -48,6 +48,7 @@ Some results on the dataset:
 - [ ] Better UTF-8 support
 - [ ] Improve stemming
 - [ ] extended config
+- [ ] add directory prefix to file index (decrease index size) e.g. @index1/path/of/file.txt
 - [ ] purge index
 - [ ] index auto detection
 - [ ] check graph structure to consider connections between words

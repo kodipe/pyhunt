@@ -1,6 +1,6 @@
 import unittest
-from rodent.rodent import Tokenizer, Rodent, Indexer
-from rodent.languages import English
+from pyhunt.pyhunt import Tokenizer, PyHunt, Indexer
+from pyhunt.languages import English
 
 class TestTokenizer(unittest.TestCase):
   def test_tokenize(self):
@@ -29,11 +29,11 @@ Fake"""
 
 class TestRodent(unittest.TestCase):
   def test_tokenize(self):
-    rodent = Rodent("foo_bar_directory", "foo_index_dir")
-    self.assertEqual(rodent.dir, "foo_bar_directory")
-    self.assertEqual(rodent.index_dir, "foo_index_dir")
-    self.assertIsInstance(rodent.tokenizer, Tokenizer)
-    self.assertIsInstance(rodent.indexer, Indexer)
+    pyhunt = PyHunt("foo_bar_directory", "foo_index_dir")
+    self.assertEqual(pyhunt.dir, "foo_bar_directory")
+    self.assertEqual(pyhunt.index_dir, "foo_index_dir")
+    self.assertIsInstance(pyhunt.tokenizer, Tokenizer)
+    self.assertIsInstance(pyhunt.indexer, Indexer)
 
 if __name__ == "__main__":
   unittest.main()

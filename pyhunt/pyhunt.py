@@ -8,11 +8,11 @@ import sys
 import re
 import os
 
-from rodent.languages import English
+from pyhunt.languages import English
 
-RODENT_OUTPUT_WAGES = 'wages'
-RODENT_OUTPUT_FILES = 'files'
-RODENT_NORMALIZE_REGEX = r'[^A-Za-z0-9 \-\n\r]+'
+PYHUNT_OUTPUT_WAGES = 'wages'
+PYHUNT_OUTPUT_FILES = 'files'
+PYHUNT_NORMALIZE_REGEX = r'[^A-Za-z0-9 \-\n\r]+'
 
 class TokenizerInterface:
   def tokenize():
@@ -27,7 +27,7 @@ class Tokenizer(TokenizerInterface):
     pass
 
   def tokenize(self, content):
-    return self.remove_stop_words(re.sub(RODENT_NORMALIZE_REGEX, '', content.lower()).split(), English.STOP_WORDS)
+    return self.remove_stop_words(re.sub(PYHUNT_NORMALIZE_REGEX, '', content.lower()).split(), English.STOP_WORDS)
 
   def remove_stop_words(self, tokens, stop_words):
     return list(filter(lambda token: token not in stop_words, tokens))
@@ -87,7 +87,7 @@ class Indexer:
             break
     pass
 
-class Rodent:
+class PyHunt:
   """
   Main class of search engine
   """
@@ -131,7 +131,7 @@ class Rodent:
     except:
       print("File reading error")
 
-  def search(self, query, output=RODENT_OUTPUT_FILES):
+  def search(self, query, output=PYHUNT_OUTPUT_FILES):
     """
       Search words in indexer index
       TODO:
@@ -139,7 +139,7 @@ class Rodent:
         - ordering files based on how many files contains specific word 
           and how many times word occur in specific file
     """
-    query_words = re.sub(RODENT_NORMALIZE_REGEX, '', query.lower()).split()
+    query_words = re.sub(PYHUNT_NORMALIZE_REGEX, '', query.lower()).split()
 
     results = {}
 
@@ -151,7 +151,7 @@ class Rodent:
           else:
             results[file_path] = self.indexer.index[self.lang.create_stem(word)][file_path]
 
-    if output == RODENT_OUTPUT_WAGES:
+    if output == PYHUNT_OUTPUT_WAGES:
       return list(sorted(results.items(), key=lambda x: x[1], reverse=True))
     else:
       return list(results.keys())
